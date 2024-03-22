@@ -10,7 +10,7 @@ public class LSILEqual {
     long filterPre = 0;
     long filterNum = 0;
     long candNum = 0;
-    //倒排索引
+    //invertedIndex
     private HashMap<Integer, ArrayList<Integer>> invertedIndex = null;
 
     long resultSize = 0;
@@ -19,7 +19,7 @@ public class LSILEqual {
     int[] elemCount = new int[500*10000];
     ArrayList<Tuple> tuplesS;
 
-    //ID到长度映射表
+
     long[] id_len_map = null;
 //    private HashMap<Integer, Integer> len_startId = null;
     int[] LenIDMap = null;
