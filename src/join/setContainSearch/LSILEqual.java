@@ -21,7 +21,7 @@ public class LSILEqual {
 
     //ID到长度映射表
     long[] id_len_map = null;
-    private HashMap<Integer, Integer> len_startId = null;
+//    private HashMap<Integer, Integer> len_startId = null;
     int[] LenIDMap = null;
     public LSILEqual(ArrayList<Tuple> tupleS) {
         this.tuplesS = tupleS;
@@ -38,11 +38,11 @@ public class LSILEqual {
                 }
             }
         }
-        init();
+        createLenIDMap();
     }
-    public void init(){
+    public void createLenIDMap(){
         id_len_map = new long[tuplesS.size()+1];
-        len_startId = new HashMap<>();
+//        len_startId = new HashMap<>();
         int len = 0;
         int indexPre = 0;
         int indexNext = 0;
@@ -51,7 +51,7 @@ public class LSILEqual {
             id_len_map[t.tupleID]=t.setSize;
             if (setSize > len){
                 LenIDMap[setSize] = t.tupleID;
-                len_startId.put(setSize,t.tupleID);
+//                len_startId.put(setSize,t.tupleID);
                 indexNext = setSize+1;
                 for (int j = setSize-1; j >= indexPre; j--){
                     LenIDMap[j] = t.tupleID;
@@ -89,21 +89,21 @@ public class LSILEqual {
         List<Integer> result = invertedIndex.get(tuple.setElements[0]);
 
         //Binary search for the starting ID of equal length queries
-        int startIDIndex = -1;
+        int p = -1;
         if (id_len_map[result.get(0)] <= tuple.setSize){
-            startIDIndex = binarySearchLength(result, len_startId.get(tuple.setSize));
+            p = binarySearchLength(result, LenIDMap[tuple.setSize]);
         }else {
             return;
         }
-        if (startIDIndex == -1){
+        if (p == -1){
             return;
         }
-        for (; startIDIndex<result.size(); ++startIDIndex){
-            Integer cadID = result.get(startIDIndex);
-            if (cadID < len_startId.get(tuple.setSize+1)){
+        for (; p<result.size(); ++p){
+            Integer m = result.get(p);
+            if (m < LenIDMap[tuple.setSize+1]){
                 int k;
                 for (k = 1; k < tuple.setSize; ++k){
-                    if (!binarySearch6(invertedIndex.get(tuple.setElements[k]),cadID)){
+                    if (!binarySearch6(invertedIndex.get(tuple.setElements[k]),m)){
                         break;
                     }
                 }
