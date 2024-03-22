@@ -65,15 +65,6 @@ public class LSILEqual {
         LenIDMap[LenIDMap.length-1] = LenIDMap[LenIDMap.length-2]+1;
 
     }
-    public void searchInvList(TupleInteger tuple){
-
-        ArrayList<Integer> result = invertedIndex.get(tuple.setElements[0]);
-
-        for (int index = 1; index < tuple.setSize; ++index){
-            result = intersectBinary(result, invertedIndex.get(tuple.setElements[index]));
-        }
-        resultSize += result.size();
-    }
 
     public void searchLSIL_Equal(TupleInteger tuple){
         // Sorting the list lengths in ascending order
